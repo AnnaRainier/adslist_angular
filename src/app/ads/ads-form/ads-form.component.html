@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th *ngIf="ad && !adId">Author</th>
+      <th *ngIf="ad && !adId">createdAt</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="ad">
+      <td [hidden]="adId">{{ad.title}}</td>
+      <td [hidden]="!adId">
+        <textarea #editTitle="ngModel" class="form-control new-ad" [(ngModel)]="ad.title" required minlength="5">
+          {{ad.title}}
+      </textarea>
+      <small id="secutiryTip" class="form-text text-muted" *ngIf="editTitle.touched && editTitle.invalid">Please, enter at least 5 characters to title</small>
+      </td>
+      <td [hidden]="adId">{{ad.description}}</td>
+      <td [hidden]="!adId">
+        <textarea #editDescription="ngModel" class="form-control new-ad" [(ngModel)]="ad.description" required minlength="5">
+            {{ad.description}}
+        </textarea>
+        <small id="secutiryTip" class="form-text text-muted" *ngIf="editDescription.touched && editDescription.invalid">Please, enter at least 5 characters to description</small>
+      </td>
+      <td *ngIf="ad && !adId">{{ad.authorName}}</td>
+      <td *ngIf="ad && !adId">{{ad.createdAt}}</td>
+      <td>
+        <button *ngIf="(ad.userId == user.id) && !adId" type="button" class="btn btn-primary" [routerLink]="['../edit/', ad.id]">Edit</button>
+        <button *ngIf="(ad.userId == user.id) && !adId" type="button" class="btn btn-primary" (click)="deleteAdItem(ad)" [routerLink]="['../delete/', ad.id]">Delete</button>
+        <button *ngIf="adId" type="button" class="btn btn-primary" (click)="createNewAd(newAd, ad)" [disabled]="editTitle.invalid || editDescription.invalid">Save</button>
+        <button *ngIf="!adId" type="button" class="btn btn-primary" (click)="cancelCreatingAd()">Go to list</button>
+        <button *ngIf="adId" type="button" class="btn btn-primary" (click)="cancelEditingAd()">Go to list</button>
+      </td>
+    </tr>
+    <tr *ngIf="!ad">
+      <td><textarea #adTitle="ngModel" required minlength="5" class="form-control new-ad" [(ngModel)]="newAd.title"></textarea>
+        <small id="secutiryTip" class="form-text text-muted" *ngIf="adTitle.touched && adTitle.invalid">Please, enter at least 5 characters to title</small>
+      </td>
+      <td><textarea #adDescription="ngModel" required minlength="5" class="form-control new-ad" [(ngModel)]="newAd.description"></textarea>
+        <small id="secutiryTip" class="form-text text-muted" *ngIf="adDescription.touched && adDescription.invalid">Please, enter at least 5 characters to description</small>
+      </td>
+      <td><button type="button" class="btn btn-primary" (click)="createNewAd(newAd)" [disabled]="adTitle.invalid || adDescription.invalid">Create</button>
+        <button type="button" class="btn btn-primary" (click)="cancelCreatingAd()">Cancel</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

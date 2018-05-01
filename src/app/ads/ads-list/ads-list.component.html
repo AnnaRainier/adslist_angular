@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Author name</th>
+      <th scope="col">Created at</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of list$ | async | paginate: { itemsPerPage: 5, currentPage: p }">
+      <th scope="row"> {{item.id}} </th>
+      <td><a [routerLink]="['/', item.id]">{{item.title}} </a></td>
+      <td>{{item.description}}</td>
+      <td>{{item.authorName}}</td>
+      <td>{{item.createdAt}}</td>
+      <td><button type="button" class="btn btn-primary" *ngIf="user.id == item.userId" [routerLink]="['/edit/', item.id]">Edit</button>
+      </td>
+      <td><button type="button" class="btn btn-primary" *ngIf="user.id == item.userId" (click)="deleteAdItem(item)" [routerLink]="['/delete/', item.id]">Delete</button></td>
+    </tr>
+  </tbody>
+</table>
+<pagination-controls class="pagination-view" (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+</div>
